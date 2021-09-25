@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Tumor predictions</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+        rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	</head>
+	<body>
+    
+    <!-- Nav bar -->  
+<nav class="navbar navbar-dark bg-dark shadow-sm">
+  <div class="container">
+    <span class="navbar-brand d-flex align-items-center" href="{{ url_for('welcome') }}"><strong>Tumor predictions</strong></span>
+  </div>
+</nav>
+<!-- Nav bar -->
+ 
+  <section>
+     <div class="pogo py-5 container" >
+       
+      
+</div><!-- Pogo ends here -->
+</section> <!-- Pogo ends here -->
+<div class="p-2" style="margin:0 auto; max-width: 1200px; font-weight: 400; font-size: 1.1rem; line-height: 1.8; text-align: justify;">
+    <p class="text-justify">
+      The aim of this project is to work out the diagnosis by calculating the probability of various diseases given a set of radiological findings. <br>
+ 
+ Naturally, Bayes' theorem could be used to calculate the probabilities. 
+	    Bayes' theorem asserts that the probability of a disease can be calculated if we know the prevalence of the disease in the general population 
+	    and the conditional probability of the radiological sign given that disease.  The conditional probability of the sign given the disease is simply 
+	    the sensitivity of that sign to the disease. In other words, if we know the sensitivities of the different radiological signs in different diseases, 
+	    we can calculate the probability of each disease given a particular set of radiological signs according to the following equation:
+</p>  
+<img src="https://raw.githubusercontent.com/gvsanthu10/website/main/images/b_equation.png" class="img-fluid" alt="bayesian theory equation" style="max-width: 40%;">
+
+<p class="text-justify">
+  Where <i>prevalence<sub>i</sub></i> is the frequency of the disease (i), <i>product<sub>i</sub></i> is the multiplication of the sensitivities of 
+	all findings that already exist in our query case for the disease and finally, N is the total number of diseases.
+  <br>
+However, two potentials drawbacks may arise when strictly applying the above equation: <br>
+Firstly, suppose one or more findings in our query case is not normally associated with a particular disease (literally the sensitivity of those findings=0) 
+	what will be the probability of that disease given those findings? Well, the nominator in the above equation simply becomes zero because at least one 
+	sensitivity of those findings will be equal to zero leading to a zero  probability. But having a zero probability of a disease is not  generally a desirable 
+	thing. So we require that the probability of all diseases can not be zero.
+<br>
+ Secondly, suppose on the other hand that our query case has no particular finding that happens to be so specific for 
+	a particular disease, wouldn't it intuitively mean that the odds of that disease is reduced when that specific variable does not exist in our query case?  
+	Obviously the above formula does not reflect that requirement either.
+<br>
+To overcome these problems, the following modification is introduced where the <i>product<sub>i</sub></i> is replaced by:
+</p>
+<img src="https://raw.githubusercontent.com/gvsanthu10/website/main/images/p_equation.png" class="img-fluid" alt="modified equation" style="max-width: 100%;">
+<p class="text-justify">
+  Where <i>present<sub>i</sub></i> is a just number corresponding to the sensitivity of the findings given the disease such that it takes a very small number not equal to zero for those findings with zero sensitivities. <i>absent<sub>i</sub></i> is a modulator number corresponding to the absence of the findings and <i>r</i> is the number of variables. That modular number is a function of the sensitivity of the radiological finding and the total number of the disease. 
+  It approaches 1 for non-specific findings but becomes &#60;&#60; 1 for specific findings. The way of calculating the modular number requires the concept of entropy from the information theory.
+  <br>
+The status of presence and absence of the variable in our query case is just (1 and 0), respectively. 
+<br>
+You see that this trick can not null the product in the previous formula because even if one of the diseases has no such variable (<i>present<sub>i</sub></i> = small number not equal to 0) the <i>product</i> will still be greater than 0 which satisfies the first requirement in the previous paragraph. On the other hand, when the query case has no such variable that is specific to a particular disease the modulator number <i>absent<sub>i</sub></i>  will reduce the probability of that disease as desired by the second requirement. 
+<br>
+The final step is renormalization to allow the completeness of the data space which means the sum of the probabilities of all disorders =1.
+
+</p>
+
+
+  </div>
+  <!--info ends -->
+
+
+  <!-- footer -->
+  
+  <!-- End of everything -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	</body>
+</html>

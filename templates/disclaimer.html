@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Bayesian predictions</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <!-- MDB -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.min.css') }}" />  
+  </head>
+  <body>
+    <!-- Start your project here-->
+
+    <!-- nav bar-->
+    <!-- Just an image -->
+<nav class="navbar navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img
+        src="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png"
+        height="20"
+        alt=""
+        loading="lazy"
+      />
+      <small>Bayesian predictions</small>
+    </a>
+  </div>
+</nav>
+
+<div class="container" style="padding: 20px;">  <!--upper empty div -->
+</div>
+
+<div class="container">
+  <!--bread crumb -->
+ 
+  <nav aria-label="breadcrumb">
+   <ol class="breadcrumb">
+     <li class="breadcrumb-item"><a href="{{ url_for('welcome') }}">Home</a></li>
+     <li class="breadcrumb-item active" aria-current="page">Disclaimer</li>
+   </ol>
+ </nav>
+ 
+  <!--bread crumb ends -->
+ </div>
+ 
+ <div class="container" style="padding: 20px;">  <!--text div -->
+ 
+   <div class="p-2" style="margin:0 auto; max-width: 1200px; font-weight: 400; font-size: 1.1rem; line-height: 1.8; text-align: justify;">
+     <p class="text-justify">
+       The objective of this project is to help radiologists organise their differential diagnosis in cases where the radiological findings are not specific.<br><br>
+ It applies a dedicated mathematical algorithm to match the radiological features of the case in question with the common diseases in that particular body section or organ. The result is then shown as a list of diseases in descending order of importance based on their probabilities.<br><br>
+ All that the user needs to do is to tick the variables that exist in the system and click on Predict.<br><br>
+ It is important to stress that the degree of matching in this application does not depend on the prevalence of the diseases in the community. So, clinical assessment is always required to check the result and make sense of it.<br><br>
+ The project is in the early stage of development and it still requires a stronger database to gain more accuracy and to cover more fields in radiology. However, we hope that many doctors and health professionals will find it helpful in their work. Sometimes, it has artefacts in the result like any other automated algorithm but hopefully, this should not affect the overall performance.
+ </p>  
+   </div>
+ 
+ </div>
+
+
+
+
+<div class="container" style="padding: 20px;">  <!--lower empty div -->
+</div>
+
+<!-- Footer -->
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(230, 230, 230, 0.2);">
+    © 2021 Copyright:
+    <a class="text-dark" href="https://gvsanthu10.github.io/">Developed by Dr Santhosh and Dr Adel</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+    <!-- End your project here-->
+
+    <!-- MDB -->
+    <script type="text/javascript" src="{{url_for('static', filename='js/mdb.min.js')}}"></script>    
+    <!-- Custom scripts -->
+    <script type="text/javascript"></script>
+  </body>
+</html>

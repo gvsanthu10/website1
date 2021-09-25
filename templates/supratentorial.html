@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Bayesian predictions</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.min.css') }}" /> 
+
+  
+<!-- start of google chart -->  
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load("current", {packages:['corechart', 'bar']});
+  google.charts.setOnLoadCallback(drawRightY);
+  function drawRightY() {
+    var data = google.visualization.arrayToDataTable([
+  {% for key, value in data.items() %}
+    {% if value is string %}
+      ['{{ key }}', '{{ value }}'],
+    {% else %}
+      ['{{ key }}', {{ value }}],
+    {% endif %}
+  {% endfor %}
+    ]);
+
+    var materialOptions = {
+    chart: {
+      title: 'Probability with scores',
+      chartArea:{left:"10%",top:0,width:"100%",height:"100%"},  
+      height: 500,
+      width: 500
+    },
+    
+    bars: 'horizontal',
+    axes: {
+      y: {
+        0: {side: 'left'}
+      }
+    }
+  };
+  var materialChart = new google.charts.Bar(document.getElementById('chart_div'));
+
+  google.visualization.events.addListener(materialChart, 'error', function (googleError) {
+  google.visualization.errors.removeError(googleError.id);
+  document.getElementById("error_msg").innerHTML = "No chart to display!";
+});
+
+
+  materialChart.draw(data, materialOptions);
+}
+</script>
+<!-- end of google chart -->  
+  
+
+  </head>
+  <body>
+    <!-- Start your project here-->
+
+    <!-- nav bar-->
+    <!-- Just an image -->
+<nav class="navbar navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('welcome') }}">
+      <img
+        src="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png"
+        height="20"
+        alt=""
+        loading="lazy"
+      />
+      <small>Bayesian predictions</small>
+    </a>
+  </div>
+</nav>
+  <!--############################################################################################################### -->
+
+<div class="container" style="padding: 20px;">  <!--Empty div to fill the gap -->
+</div>
+  <!--############################################################################################################### -->
+<div class="container">
+ <!--bread crumb -->
+
+ <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('welcome') }}">Home</a></li>
+    <li class="breadcrumb-item">Neuro</li>
+    <li class="breadcrumb-item">Mass</li>
+    <li class="breadcrumb-item">Intra-axial</li>
+    <li class="breadcrumb-item active" aria-current="page">Supratentorial</li>
+  </ol>
+</nav>
+
+</div>
+ <!--bread crumb ends -->
+  <!--############################################################################################################### -->
+
+
+  <div class="container" style="padding: 20px;">  <!--centering div-->  
+
+    <form action = "{{url_for('supratentorial_predict')}}" method ="POST" >
+
+    <h3>Select the parameters</h3>
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#flush-collapseOne"
+              aria-expanded="false"
+              aria-controls="flush-collapseOne"
+            >
+              Age
+            </button>
+          </h2>
+          <div
+            id="flush-collapseOne"
+            class="accordion-collapse collapse"
+            aria-labelledby="flush-headingOne"
+            data-mdb-parent="#accordionFlushExample"
+          >
+            <div class="accordion-body">
+                <fieldset> <!--fieldset starts-->
+
+                    <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="Child" name="supra" value = "Child" unchecked>
+              <br>
+              <label for="Child">Child</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="Adult" name="supra" value = "Adult" unchecked>
+              <br>
+							<label for="Adult">Adult</label>
+					   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <fieldset> <!--fieldset ends-->
+            </div> <!--according body ends -->
+          </div>  <!--flush collape ends -->
+        </div> <!--according item ends -->
+
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingTwo">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#flush-collapseTwo"
+              aria-expanded="false"
+              aria-controls="flush-collapseTwo"
+            >
+              Morphology
+            </button>
+          </h2>
+          <div
+            id="flush-collapseTwo"
+            class="accordion-collapse collapse"
+            aria-labelledby="flush-headingTwo"
+            data-mdb-parent="#accordionFlushExample"
+          >
+            <div class="accordion-body">
+              <fieldset> <!--fieldset starts-->
+
+                    <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="solitary" name="supra" value = "solitary" unchecked>
+              <br>
+              <label for="solitary">Solitary</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="multiple" name="supra" value = "multiple" unchecked>
+              <br>
+							<label for="multiple">Multiple or multifocal</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">  <!--one item-->
+                        <input type="checkbox" class="form-check-input" id="pleomorphic" name="supra" value = "pleomorphic" unchecked>
+          <br>
+          <label for="pleomorphic">When multiple, the lesions in more complex shape with lobulated margins (pleomorphic) more than spherical uniform shape</label>
+                    </div>
+
+                    <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="same_area" name="supra" value = "same_area" unchecked>
+          <br>
+                        <label for="same_area">When multiple, the lesions are confined within the same area of oedema</label>
+                   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="solid" name="supra" value = "solid" unchecked>
+              <br>
+              <label for="solid">Solid (compact with no necrotic areas)</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="solid_necrosis" name="supra" value = "solid_necrosis" unchecked>
+              <br>
+							<label for="solid_necrosis">Solid with necrosis, complex solid and cystic lesions or cystic lesion with mural nodule</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">  <!--one item-->
+                        <input type="checkbox" class="form-check-input" id="Small" name="supra" value = "Small" unchecked>
+          <br>
+          <label for="Small">Small lesion less than 2 cm</label>
+                    </div>
+
+                    <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="cystic" name="supra" value = "cystic" unchecked>
+          <br>
+                        <label for="cystic">Purely cystic lesion (hypo T1 and hyper T2)</label>
+                   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <fieldset> <!--fieldset ends-->
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingThree">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#flush-collapseThree"
+              aria-expanded="false"
+              aria-controls="flush-collapseThree"
+            >
+              Location
+            </button>
+          </h2>
+          <div
+            id="flush-collapseThree"
+            class="accordion-collapse collapse"
+            aria-labelledby="flush-headingThree"
+            data-mdb-parent="#accordionFlushExample"
+          >
+            <div class="accordion-body">
+                <fieldset> <!--fieldset starts-->
+
+                    <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="cortical_based" name="supra" value = "cortical_based" unchecked>
+              <br>
+              <label for="cortical_based">Cortical or Subcortical</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="More_then_one_lobe" name="supra" value = "More_then_one_lobe" unchecked>
+              <br>
+							<label for="More_then_one_lobe">Continuous extension over more than one cerebral lobes</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">  <!--one item-->
+                        <input type="checkbox" class="form-check-input" id="cc" name="supra" value = "cc" unchecked>
+          <br>
+          <label for="cc">Corpus callosum involvement</label>
+                    </div>
+
+                    <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="symmetrical" name="supra" value = "symmetrical" unchecked>
+          <br>
+                        <label for="symmetrical">Symmetrical basal ganglia/thalamus involvement</label>
+                   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="asymmetrical" name="supra" value = "asymmetrical" unchecked>
+              <br>
+              <label for="asymmetrical">Solitary or multiple asymmetrical BG involvement</label>
+						</div>
+
+					  </div> <!--row ends-->
+                      <fieldset> <!--fieldset ends-->
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading4">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#flush-collapse4"
+                aria-expanded="false"
+                aria-controls="flush-collapse4"
+              >
+                Signal Pattern
+              </button>
+            </h2>
+            <div
+              id="flush-collapse4"
+              class="accordion-collapse collapse"
+              aria-labelledby="flush-heading4"
+              data-mdb-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <fieldset> <!--fieldset starts-->
+
+                    <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="complete_enhance" name="supra" value = "complete_enhance" unchecked>
+              <br>
+              <label for="complete_enhance">Enhanced whole lesion or the solid part of the cystic lesion</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="Enhanced_wall" name="supra" value = "Enhanced_wall" unchecked>
+              <br>
+							<label for="Enhanced_wall">Enhanced wall of the purely cystic lesion or double rim sign (enhanced two layers)</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">  <!--one item-->
+                        <input type="checkbox" class="form-check-input" id="hemorrhage" name="supra" value = "hemorrhage" unchecked>
+          <br>
+          <label for="hemorrhage">Hemorrhage (within the solid part or inside the cystic component or hemosiderine around the lesion)</label>
+                    </div>
+
+                    <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="popcorn" name="supra" value = "popcorn" unchecked>
+          <br>
+                        <label for="popcorn">Popcorn appearence or hemosidirin</label>
+                   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="calcification" name="supra" value = "calcification" unchecked>
+              <br>
+              <label for="calcification">calcification (punctuate)</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="calcification_coarse" name="supra" value = "calcification_coarse" unchecked>
+              <br>
+							<label for="calcification_coarse">calcification (coarse)</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">  <!--one item-->
+                        <input type="checkbox" class="form-check-input" id="fat" name="supra" value = "fat" unchecked>
+          <br>
+          <label for="fat">Fat signal</label>
+                    </div>
+
+                    <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="restriction_solid" name="supra" value = "restriction_solid" unchecked>
+          <br>
+                        <label for="restriction_solid">Diffusion restriction in the solid lesion or solid component of the cystic part</label>
+                   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="restriction_cystuc" name="supra" value = "restriction_cystuc" unchecked>
+              <br>
+              <label for="restriction_cystuc">Diffusion restriction in the cavity of the cystic lesion</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="caseating" name="supra" value = "caseating" unchecked>
+              <br>
+							<label for="caseating">Solid caseating lesion (low T2 and high T1)</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">
+                        <input type="checkbox" class="form-check-input" id="Serpentine" name="supra" value = "Serpentine" unchecked>
+                        <br>
+                                      <label for="Serpentine">Serpentine or flow voids within the lesion</label>
+                                 </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <fieldset> <!--fieldset ends-->
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading5">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#flush-collapse5"
+                aria-expanded="false"
+                aria-controls="flush-collapse5"
+              >
+                Other features
+              </button>
+            </h2>
+            <div
+              id="flush-collapse5"
+              class="accordion-collapse collapse"
+              aria-labelledby="flush-heading5"
+              data-mdb-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <fieldset> <!--fieldset starts-->
+
+                    <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="White_matter_edema" name="supra" value = "White_matter_edema" unchecked>
+              <br>
+              <label for="White_matter_edema">White matter edema </label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="dural" name="supra" value = "dural" unchecked>
+              <br>
+							<label for="dural">Dural/meningeal thickening</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">  <!--one item-->
+                        <input type="checkbox" class="form-check-input" id="remodeling" name="supra" value = "remodeling" unchecked>
+          <br>
+          <label for="remodeling">Remodeling skull table and scallopingt</label>
+                    </div>
+
+                    <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="calvarial_erosion" name="supra" value = "calvarial_erosion" unchecked>
+          <br>
+                        <label for="calvarial_erosion">Calvarial erosion/extracalvarial extension</label>
+                   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="subependymal_calcific" name="supra" value = "subependymal_calcific" unchecked>
+              <br>
+              <label for="subependymal_calcific">Associated subependymal calcific nodules (hamartoma) and/or radial bands</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="subependymal_spread" name="supra" value = "subependymal_spread" unchecked>
+              <br>
+							<label for="subependymal_spread">Subependymal spread</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">  <!--one item-->
+                        <input type="checkbox" class="form-check-input" id="tubers" name="supra" value = "tubers" unchecked>
+          <br>
+          <label for="tubers">Cortical or subcortical tubers</label>
+                    </div>
+
+                    <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="cortical_dysplasia" name="supra" value = "cortical_dysplasia" unchecked>
+          <br>
+                        <label for="cortical_dysplasia">Associated cortical dysplasia</label>
+                   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <fieldset> <!--fieldset ends-->
+              </div>
+            </div>
+          </div>
+
+
+      </div> <!-- according -->
+      <br>
+					  
+
+      <button type="submit" class="btn btn-primary" style="margin: 10px;">Predict</button>
+    
+    </form>  
+  </div> <!-- div for container -->
+ <!--############################################################################################################### -->
+
+<!-- graph starts -->
+ <div class="container" style="margin-top: 30px;">  <!-- gving gap -->
+  <div id="chart_div" style=" width: 100%; margin: auto;"></div>
+</div>
+<!-- graph ends -->
+
+  <!--############################################################################################################### -->
+  <div class="container" style="padding: 20px;">  <!--Empty div to fill the gap -->
+  </div>
+    <!--############################################################################################################### -->
+
+
+<!-- Footer -->
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(230, 230, 230, 0.2);">
+    © 2021 Copyright:
+    <a class="text-dark" href="https://gvsanthu10.github.io/">Developed by Dr Santhosh and Dr Adel</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+    <!-- End your project here-->
+
+
+<script type="text/javascript" src="{{url_for('static', filename='js/mdb.min.js')}}"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript"></script>
+  </body>
+</html>

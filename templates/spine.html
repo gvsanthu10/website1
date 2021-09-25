@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Bayesian predictions</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.min.css') }}" /> 
+
+  
+<!-- start of google chart -->  
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    
+    google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+        {% for key, value in data.items() %}
+    {% if value is string %}
+      ['{{ key }}', '{{ value }}'],
+    {% else %}
+      ['{{ key }}', {{ value }}],
+    {% endif %}
+  {% endfor %}
+        ]);
+
+        var options = {
+        width: 300,
+        height: 300,
+        colors: ['#1266f1', '#1266f1','#1266f1',],
+          chart: {
+            title: 'Predictions',
+            subtitle: '',
+          }
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('chart_div'));
+        
+        google.visualization.events.addListener(chart, 'error', function (googleError) {
+      google.visualization.errors.removeError(googleError.id);
+      document.getElementById("error_msg").innerHTML = "Message removed = '" + googleError.message + "'";
+  });
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+     
+      }
+    
+    </script>
+<!-- end of google chart -->  
+  
+
+  </head>
+  <body>
+    <!-- Start your project here-->
+
+    <!-- nav bar-->
+    <!-- Just an image -->
+<nav class="navbar navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('welcome') }}">
+      <img
+        src="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png"
+        height="20"
+        alt=""
+        loading="lazy"
+      />
+      <small>Bayesian predictions</small>
+    </a>
+  </div>
+</nav>
+  <!--############################################################################################################### -->
+
+<div class="container" style="padding: 20px;">  <!--Empty div to fill the gap -->
+</div>
+  <!--############################################################################################################### -->
+<div class="container">
+ <!--bread crumb -->
+
+ <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('welcome') }}">Home</a></li>
+    <li class="breadcrumb-item">MSK</li>
+    <li class="breadcrumb-item active" aria-current="page">Osteoporotic vs malignant vertebral fracture</li>
+  </ol>
+</nav>
+
+</div>
+ <!--bread crumb ends -->
+  <!--############################################################################################################### -->
+
+
+<div class="container" style="padding: 20px;">  <!--centering div-->  
+
+          <form action = "{{url_for('spine_predict')}}" method ="POST" >
+      
+          <h3>Select the parameters</h3>
+          <div class="card card-body">
+
+            <div class="form-group">
+              <input type="checkbox" class="form-check-input" id="convex" name="Thyroid" value = "convex" unchecked>
+              <label for="convex">Convex posterior border of the vertebral body</label>
+             </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="posterior" name="Thyroid" value = "posterior" unchecked>
+                    <label for="posterior">Involvement of the pedicle or the posterior elements</label>
+                  </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="epi" name="Thyroid" value = "epi" unchecked>
+                    <label for="epi">Epidural mass</label>
+                  </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="paraspinal" name="Thyroid" value = "paraspinal" unchecked>
+                    <label for="paraspinal">Paraspinal mass</label>
+                  </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="destruc" name="Thyroid" value = "destruc" unchecked>
+                    <label for="destruc">Destruction of the bony cortex</label>
+                  </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="Fluid" name="Thyroid" value = "Fluid" unchecked>
+                    <label for="Fluid">Fluid signal in T2</label>
+                  </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="normal_marrow" name="Thyroid" value = "normal_marrow" unchecked>
+                    <label for="normal_marrow">Spared normal bone marrow signal intensity</label>
+                  </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="retro" name="Thyroid" value = "retro" unchecked>
+                    <label for="retro">Retropulsion</label>
+                  </div>
+            
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="mlutpl" name="Thyroid" value = "mlutpl" unchecked>
+                    <label for="mlutpl">Multiple compression fractures</label>
+                  </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="degene" name="Thyroid" value = "degene" unchecked>
+                    <label for="degene">Degenertaive end plates</label>
+                  </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="scnodules" name="Thyroid" value = "scnodules" unchecked>
+                    <label for="scnodules">Scmorl`s nodes</label>
+                  </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="t12" name="Thyroid" value = "t12" unchecked>
+                    <label for="t12">Fracture T12 and/or L1</label>
+                  </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="disc" name="Thyroid" value = "disc" unchecked>
+                    <label for="disc">Loss of the disc height </label>
+                  </div>
+        
+            <div class="form-group">
+                    <input type="checkbox" class="form-check-input" id="other" name="Thyroid" value = "other" unchecked>
+                    <label for="other">Other spinal metastasis</label>
+                  </div>
+          </div>
+        <br>
+					  
+
+        <button type="submit" class="btn btn-primary" style="margin: 10px;">Predict</button>
+      
+      </form>  
+    </div> <!-- div for container -->
+    <!--############################################################################################################### -->
+   
+   <!-- graph starts -->
+   <div class="border border-light p-3 mb-4">  
+    <div class="d-flex align-items-center justify-content-center">
+      <div id="chart_div" style="padding: 10px; min-height: 200px"></div>
+    </div>
+ </div> 
+   <!-- graph ends -->
+   
+     <!--############################################################################################################### -->
+     <div class="container" style="padding: 20px;">  <!--Empty div to fill the gap -->
+     </div>
+       <!--############################################################################################################### -->
+   
+   
+   <!-- Footer -->
+   <footer class="bg-light text-center text-lg-start">
+     <!-- Copyright -->
+     <div class="text-center p-3" style="background-color: rgba(230, 230, 230, 0.2);">
+       © 2021 Copyright:
+       <a class="text-dark" href="https://gvsanthu10.github.io/">Developed by Dr Santhosh and Dr Adel</a>
+     </div>
+     <!-- Copyright -->
+   </footer>
+       <!-- End your project here-->
+   
+   
+   <script type="text/javascript" src="{{url_for('static', filename='js/mdb.min.js')}}"></script>
+       <!-- Custom scripts -->
+       <script type="text/javascript"></script>
+     </body>
+   </html>
+   

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Bayesian predictions</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.min.css') }}" /> 
+
+ 
+
+  </head>
+  <body>
+    <!-- Start your project here-->
+
+    <!-- nav bar-->
+    <!-- Just an image -->
+<nav class="navbar navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('welcome') }}">
+      <img
+        src="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png"
+        height="20"
+        alt=""
+        loading="lazy"
+      />
+      <small>Bayesian predictions</small>
+    </a>
+  </div>
+</nav>
+  <!--############################################################################################################### -->
+
+<div class="container" style="padding: 20px;">  <!--Empty div to fill the gap -->
+</div>
+  <!--############################################################################################################### -->
+<div class="container">
+ <!--bread crumb -->
+
+ <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ url_for('welcome') }}">Home</a></li>
+    <li class="breadcrumb-item">Others</li>
+    <li class="breadcrumb-item active" aria-current="page">USG thyroid nodules</li>
+  </ol>
+</nav>
+
+</div>
+ <!--bread crumb ends -->
+  <!--############################################################################################################### -->
+
+
+  <div class="container" style="padding: 20px;">  <!--centering div-->  
+
+    <form action = "{{url_for('thyroid_predict')}}" method ="POST" >
+
+    <h3>Select the parameters</h3>
+    <div class="card card-body">
+
+     <!--############################################################################################################### -->
+
+    <div class="form-group">
+      <input type="checkbox" class="form-check-input" id="solid" name="Thyroid" value = "solid" unchecked>
+      <label for="solid">Entirely solid</label>
+     </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="partly_solid" name="Thyroid" value = "partly_solid" unchecked>
+            <label for="partly_solid">Partially solid</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="wide" name="Thyroid" value = "wide" unchecked>
+            <label for="wide">Wider than tall</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="tall" name="Thyroid" value = "tall" unchecked>
+            <label for="tall">Taller than wide</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="hyper" name="Thyroid" value = "hyper" unchecked>
+            <label for="hyper">Hyperechoic or isoechoic nodule</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="hypo" name="Thyroid" value = "hypo" unchecked>
+            <label for="hypo">Markedly hypoechoic nodule</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="nocal" name="Thyroid" value = "nocal" unchecked>
+            <label for="nocal">No calcification</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="macro" name="Thyroid" value = "macro" unchecked>
+            <label for="macro">Macrocalcifications</label>
+          </div>
+    
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="micro" name="Thyroid" value = "micro" unchecked>
+            <label for="micro">Microcalcifications</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="well" name="Thyroid" value = "well" unchecked>
+            <label for="well">Well circumscribed nodules</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="ill" name="Thyroid" value = "ill" unchecked>
+            <label for="ill">Ill-defined</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="peri" name="Thyroid" value = "peri" unchecked>
+            <label for="peri">Peripheral halo</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="noperi" name="Thyroid" value = "noperi" unchecked>
+            <label for="noperi">No peripheral halo</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="perivasc" name="Thyroid" value = "perivasc" unchecked>
+            <label for="perivasc">Peripheral vascularity</label>
+          </div>
+
+    <div class="form-group">
+            <input type="checkbox" class="form-check-input" id="intervasc" name="Thyroid" value = "intervasc" unchecked>
+            <label for="intervasc">Internal vascularity</label>
+          </div>
+     <!--############################################################################################################### -->
+    </div>
+
+      <br>
+					  
+
+      <button type="submit" class="btn btn-primary" style="margin: 10px;">Predict</button>
+    
+    </form>  
+  </div> <!-- div for container -->
+ <!--############################################################################################################### -->
+ <div id ="result" style="text-align: center;">
+  <strong style="color:red;">{{result}}</strong>
+</div>
+
+
+  <!--############################################################################################################### -->
+  <div class="container" style="padding: 20px;">  <!--Empty div to fill the gap -->
+  </div>
+    <!--############################################################################################################### -->
+
+
+<!-- Footer -->
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(230, 230, 230, 0.2);">
+    © 2021 Copyright:
+    <a class="text-dark" href="https://gvsanthu10.github.io/">Developed by Dr Santhosh and Dr Adel</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+    <!-- End your project here-->
+
+
+<script type="text/javascript" src="{{url_for('static', filename='js/mdb.min.js')}}"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript"></script>
+  </body>
+</html>

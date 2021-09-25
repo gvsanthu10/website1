@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Bayesian predictions</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <!-- MDB -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.min.css') }}" />  
+  </head>
+  <body>
+    <!-- Start your project here-->
+
+    <!-- nav bar-->
+    <!-- Just an image -->
+<nav class="navbar navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('welcome') }}">
+      <img
+        src="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png"
+        height="20"
+        alt=""
+        loading="lazy"
+      />
+      <small>Bayesian predictions</small>
+    </a>
+  </div>
+</nav>
+
+  <!--############################################################################################################### -->
+
+  <div class="container" style="padding: 20px;">  <!--Empty div to fill the gap -->
+  </div>
+    <!--############################################################################################################### -->
+
+  <!--############################################################################################################### -->
+  <div class="container">
+    <!--bread crumb -->
+   
+    <nav aria-label="breadcrumb">
+     <ol class="breadcrumb">
+       <li class="breadcrumb-item"><a href="{{ url_for('welcome') }}">Home</a></li>
+     </ol>
+   </nav>
+   
+   </div>
+    <!--bread crumb ends -->
+     <!--############################################################################################################### -->
+
+<div class="container">
+
+  <div class="accordion" id="accordionExample" style="width: 100%;">
+
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-mdb-toggle="collapse" data-mdb-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+          Neuro
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-mdb-parent="#accordionExample">
+        <div class="accordion-body">
+          
+          <ul class="unorderedList">
+            <li>Mass</li>
+            <ul>
+             <li>Intr-axial</li>
+               <ul>
+               <li><a href="{{ url_for('supra') }}" class="link-primary">Supratentorial</a></li>
+                 <li>Infratentorial</li>
+              </ul>
+              <li>Intraventricular</li>
+                 <ul>
+               <li>Supratentorial</li>
+                 <li>Infratentorial</li>
+              </ul>
+              <li>Extra-axial</li>
+              <li><a href="{{ url_for('sella') }}" class="link-primary">Sellar-Suprasella</a></li>
+              <li>Pineal masses</li>
+              <li>CP angle masses</li>
+              <li>Cystic masses</li>
+            </ul>
+             <li>White matter changes</li>
+             <ul>
+               <li><a href="{{ url_for('whitematter') }}" class="link-primary">Adult</a></li>
+               <li><a href="{{ url_for('pead_wm') }}" class="link-primary">Pediatric</a></li>   
+              </ul>
+              <li>Charii vs intracranial hypertension</li>
+           </ul>   <!--end of unorderdlist -->
+        </div>
+      </div>
+    </div> <!--end of main items -->
+
+
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse" data-mdb-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Thoracic
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-mdb-parent="#accordionExample">
+        <div class="accordion-body">
+          
+          <ul class="unorderedList">
+            <li>Pulmonary nodule</li>
+            <ul>
+             <li>Solid</li>
+              <li>Cavitating</li>
+              </ul>
+              <li>Diffuse lung disease</li>
+           </ul>   <!--end of unorderdlist -->
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse" data-mdb-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Gastrointestinal
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-mdb-parent="#accordionExample">
+        <div class="accordion-body">
+          
+          <ul class="unorderedList">
+            <li>Pancreatic masses</li>
+            <ul>
+             <li>Solid</li>
+              <li>Cystic</li>
+              </ul>
+              <li>Focal liver lesions</li>
+              <li>Pattren of small bowel enhancement
+
+              </li>
+           </ul>   <!--end of unorderdlist -->
+        </div>
+      </div>
+    </div> <!--end of main items -->
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingFour">
+        <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse" data-mdb-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          Genitourinary
+        </button>
+      </h2>
+      <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-mdb-parent="#accordionExample">
+        <div class="accordion-body">
+          
+          <ul class="unorderedList">
+            <li><a href="{{ url_for('ovary') }}" class="link-primary">Ovarian tumors</a></li>
+              <li>Lesions in the transitional zone of the prostate</li>
+           </ul>   <!--end of unorderdlist -->
+        </div>
+      </div>
+    </div> <!--end of main items -->
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingFive">
+        <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse" data-mdb-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+          MSK
+        </button>
+      </h2>
+      <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-mdb-parent="#accordionExample">
+        <div class="accordion-body">
+          
+          <ul class="unorderedList">
+            <li>Benign vs malignant spinal tumors</li>
+              <li>Neurofibroma versus neurolemmoma of the peripheral nerves</li>
+              <li>Diffuse muscle disease</li>
+            <li><a href="{{ url_for('spine') }}" class="link-primary">Osteoporotic vs malignant vertebral fracture</a></li>
+           </ul>   <!--end of unorderdlist -->
+        </div>
+      </div>
+    </div> <!--end of main items -->
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingSix">
+        <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse" data-mdb-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+          Others
+        </button>
+      </h2>
+      <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-mdb-parent="#accordionExample">
+        <div class="accordion-body">
+          
+          <ul class="unorderedList">
+            <li><a href="{{ url_for('thyroid') }}" class="link-primary">Ultrasound of thyroid nodules</a></li>
+              <li>Ultrasound of breast lesions</li>
+           </ul>   <!--end of unorderdlist -->
+        </div>
+      </div>
+    </div> <!--end of main items -->
+
+
+  </div> <!--end of accordin -->
+
+  <div class="container" style="padding: 20px;">  <!--Empty div to fill the gap -->
+  </div>
+
+
+
+    <!--info starts -->
+
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Prediction with given imaging features</h1>
+        <p class="lead text-muted">With the application of the Bayesian theorem, we aim to convert the prior probability of the given disease to its posterior probability considering the imaging features provided.</p>
+        <p>
+          <a href="{{ url_for('more_info') }}" class="btn btn-primary my-2">More info here</a>
+          <a href="{{ url_for('disclaimer') }}" class="btn btn-secondary my-2">Disclaimer</a>
+        </p>
+      </div>
+    </div>
+  </section>
+    <!--info ends -->
+
+
+
+</div>
+
+<!-- Footer -->
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(230, 230, 230, 0.2);">
+    © 2021 Copyright:
+    <a class="text-dark" href="https://gvsanthu10.github.io/">Developed by Dr Santhosh and Dr Adel</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+    <!-- End your project here-->
+
+    <!-- MDB -->
+    <script type="text/javascript" src="{{url_for('static', filename='js/mdb.min.js')}}"></script>    
+    <!-- Custom scripts -->
+    <script type="text/javascript"></script>
+  </body>
+</html>

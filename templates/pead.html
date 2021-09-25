@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Bayesian predictions</title>
+    <!-- MDB icon -->
+    <link rel="icon" href="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png" type="image/x-icon" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.min.css') }}" />  
+    
+<!--
+    <link rel="stylesheet" href="css/mdb.min.css" />
+-->
+
+<!-- start of google chart -->  
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load("current", {packages:['corechart', 'bar']});
+  google.charts.setOnLoadCallback(drawRightY);
+  function drawRightY() {
+    var data = google.visualization.arrayToDataTable([
+  {% for key, value in data.items() %}
+    {% if value is string %}
+      ['{{ key }}', '{{ value }}'],
+    {% else %}
+      ['{{ key }}', {{ value }}],
+    {% endif %}
+  {% endfor %}
+    ]);
+
+    var materialOptions = {
+    chart: {
+      title: 'Probability with scores',
+      chartArea:{left:"10%",top:0,width:"100%",height:"100%"},  
+      height: 500,
+      width: 500
+    },
+    
+    bars: 'horizontal',
+    axes: {
+      y: {
+        0: {side: 'left'}
+      }
+    }
+  };
+  var materialChart = new google.charts.Bar(document.getElementById('chart_div'));
+
+  google.visualization.events.addListener(materialChart, 'error', function (googleError) {
+  google.visualization.errors.removeError(googleError.id);
+  document.getElementById("error_msg").innerHTML = "No chart to display!";
+});
+
+
+  materialChart.draw(data, materialOptions);
+}
+</script>
+<!-- end of google chart -->  
+  </head>
+  <body>
+    <!-- Start your project here-->
+
+    <!-- nav bar-->
+    <!-- Just an image -->
+<nav class="navbar navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="{{url_for('welcome')}}">
+      <img
+        src="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png"
+        height="20"
+        alt=""
+        loading="lazy"
+      />
+      <small>Bayesian predictions</small>
+    </a>
+  </div>
+</nav>
+
+
+<div class="container" style="padding: 20px;">  <!--Empty div to fill the gap -->
+</div>
+
+<div class="container">
+ <!--bread crumb -->
+
+ <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{url_for('welcome')}}">Home</a></li>
+    <li class="breadcrumb-item">Neuro</li>
+    <li class="breadcrumb-item">White matter changes</li>
+    <li class="breadcrumb-item active" aria-current="page">Pediatric</li>
+  </ol>
+</nav>
+
+</div>
+ <!--bread crumb ends -->
+  <!--############################################################################################################### -->
+
+
+  <div class="container" style="padding: 20px;">  <!--centering div-->  
+
+    <form action = "{{url_for('pead_wm_predict')}}" method ="POST" >
+
+    <h3>Select the parameters</h3>
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#flush-collapseOne"
+              aria-expanded="false"
+              aria-controls="flush-collapseOne"
+            >
+              Age
+            </button>
+          </h2>
+          <div
+            id="flush-collapseOne"
+            class="accordion-collapse collapse"
+            aria-labelledby="flush-headingOne"
+            data-mdb-parent="#accordionFlushExample"
+          >
+            <div class="accordion-body">
+                <fieldset> <!--fieldset starts-->
+
+                    <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="neonate" name="supra" value = "neonate" unchecked>
+              <br>
+              <label for="neonate">Neonates (first 28 days)</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="infant" name="supra" value = "infant" unchecked>
+              <br>
+							<label for="infant">Infant (less than 2 years)</label>
+					   </div> <!--item ends-->
+
+             <div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="juvenile" name="supra" value = "juvenile" unchecked>
+              <br>
+							<label for="juvenile">Juvenile child (more than 2 years)</label>
+					   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <fieldset> <!--fieldset ends-->
+            </div> <!--according body ends -->
+          </div>  <!--flush collape ends -->
+        </div> <!--according item ends -->
+
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingTwo">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#flush-collapseTwo"
+              aria-expanded="false"
+              aria-controls="flush-collapseTwo"
+            >
+              White matter
+            </button>
+          </h2>
+          <div
+            id="flush-collapseTwo"
+            class="accordion-collapse collapse"
+            aria-labelledby="flush-headingTwo"
+            data-mdb-parent="#accordionFlushExample"
+          >
+            <div class="accordion-body">
+              <fieldset> <!--fieldset starts-->
+
+                    <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="solitary" name="supra" value = "solitary" unchecked>
+              <br>
+              <label for="solitary">Hypomyelination (generalized poor gray-white matter differentiation. The internal capsule WM appears hypointense on T1 and does not show normal hypointense signal on T2)</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="graymatter" name="supra" value = "graymatter" unchecked>
+              <br>
+							<label for="graymatter">Gray matter involvement</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">  <!--one item-->
+                        <input type="checkbox" class="form-check-input" id="wavy" name="supra" value = "wavy" unchecked>
+          <br>
+          <label for="wavy">White matter diffuse lesion or amorphous shape with concave undulating (wavy) margins</label>
+                    </div>
+
+                    <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="oval" name="supra" value = "oval" unchecked>
+          <br>
+                        <label for="oval">White matter or gray matter discrete small or large oval lesion(s) with convex margins</label>
+                   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="2cm" name="supra" value = "2cm" unchecked>
+              <br>
+              <label for="2cm">Large flocculent well defined white matter lesion >2 cm</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="symmetrical" name="supra" value = "symmetrical" unchecked>
+              <br>
+							<label for="symmetrical">Symmetrical WM distribution</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">  <!--one item-->
+                        <input type="checkbox" class="form-check-input" id="butterfly" name="supra" value = "butterfly" unchecked>
+          <br>
+          <label for="butterfly">Butterfly pattern</label>
+                    </div>
+
+                    <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="frontotemporal" name="supra" value = "frontotemporal" unchecked>
+          <br>
+                        <label for="frontotemporal">Frontal-temporal dominance</label>
+                   </div> <!--item ends-->
+					  </div> <!--row ends-->
+
+            <div class="form-group  row">  <!--row starts-->
+
+              <div class="col-sm-3">  <!--one item-->
+                <input type="checkbox" class="form-check-input" id="parietooccipital" name="supra" value = "parietooccipital" unchecked>
+                <br>
+                <label for="parietooccipital">Parieto-occipital dominance</label>
+              </div>
+  
+              <div class="col-sm-3">
+                <input type="checkbox" class="form-check-input" id="csf" name="supra" value = "csf" unchecked>
+                <br>
+                <label for="csf">CSF-like intensity of the white matter</label>
+               </div> <!--item ends-->
+                         <div class="col-sm-3">  <!--one item-->
+                          <input type="checkbox" class="form-check-input" id="cc" name="supra" value = "cc" unchecked>
+            <br>
+            <label for="cc">Involvement of corpus callosum</label>
+                      </div>
+  
+                      <div class="col-sm-3">
+            <input type="checkbox" class="form-check-input" id="cerebellar" name="supra" value = "cerebellar" unchecked>
+            <br>
+                          <label for="cerebellar">Cerebellar white matter including cerebellar pedunclesa</label>
+                     </div> <!--item ends-->
+              </div> <!--row ends-->
+                        <div class="form-group  row">  <!--row starts-->
+  
+              <div class="col-sm-3">  <!--one item-->
+                <input type="checkbox" class="form-check-input" id="small_cyst" name="supra" value = "small_cyst" unchecked>
+                <br>
+                <label for="small_cyst">Small cysts in the white matter</label>
+              </div>
+  
+              <div class="col-sm-3">
+                <input type="checkbox" class="form-check-input" id="enhacement" name="supra" value = "enhacement" unchecked>
+                <br>
+                <label for="enhacement">Enhancement of white matter and/or gray matter</label>
+               </div> <!--item ends-->
+                         <div class="col-sm-3">  <!--one item-->
+                          <input type="checkbox" class="form-check-input" id="diffusion" name="supra" value = "diffusion" unchecked>
+            <br>
+            <label for="diffusion">High signal in DWI in the cerebrum, corpus callosum or cerebellum</label>
+                      </div>
+  
+                      <div class="col-sm-3">
+            <input type="checkbox" class="form-check-input" id="hippocampus" name="supra" value = "hippocampus" unchecked>
+            <br>
+                          <label for="hippocampus">Abnormal signal in hippocampus/limbic system</label>
+                     </div> <!--item ends-->
+              </div> <!--row ends-->
+              <div class="form-group  row">  <!--row starts-->
+  
+                <div class="col-sm-3">  <!--one item-->
+                  <input type="checkbox" class="form-check-input" id="subcortical_cal" name="supra" value = "subcortical_cal" unchecked>
+                  <br>
+                  <label for="subcortical_cal">Subcortical calcification</label>
+                </div>
+    
+                <div class="col-sm-3">
+                  <input type="checkbox" class="form-check-input" id="small_cal" name="supra" value = "small_cal" unchecked>
+                  <br>
+                  <label for="small_cal">Small dots of calcification in the white matter (may appear high T1 foci in the white matter</label>
+                 </div> <!--item ends-->
+                           <div class="col-sm-3">  <!--one item-->
+                            <input type="checkbox" class="form-check-input" id="laminar" name="supra" value = "laminar" unchecked>
+              <br>
+              <label for="laminar">High T1 curvilinear signal  in GM or subcortical WM (laminar necrosis)</label>
+                        </div>
+  
+                </div> <!--row ends-->
+                      <fieldset> <!--fieldset ends-->
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingThree">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#flush-collapseThree"
+              aria-expanded="false"
+              aria-controls="flush-collapseThree"
+            >
+              Other features
+            </button>
+          </h2>
+          <div
+            id="flush-collapseThree"
+            class="accordion-collapse collapse"
+            aria-labelledby="flush-headingThree"
+            data-mdb-parent="#accordionFlushExample"
+          >
+            <div class="accordion-body">
+              <fieldset> <!--fieldset starts-->
+
+                <div class="form-group  row">  <!--row starts-->
+
+        <div class="col-sm-3">  <!--one item-->
+          <input type="checkbox" class="form-check-input" id="post_ic" name="supra" value = "post_ic" unchecked>
+          <br>
+          <label for="post_ic">Post limb internal capsules/corticospinal tract</label>
+        </div>
+
+        <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="pituitary" name="supra" value = "pituitary" unchecked>
+          <br>
+          <label for="pituitary">Associated enlarged pituitary gland or increased signal</label>
+         </div> <!--item ends-->
+                   <div class="col-sm-3">  <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="Hemorrhage" name="supra" value = "Hemorrhage" unchecked>
+      <br>
+      <label for="Hemorrhage">Hemorrhage (any type) or microhemorrhage</label>
+                </div>
+
+                <div class="col-sm-3">
+      <input type="checkbox" class="form-check-input" id="Meningeal" name="supra" value = "Meningeal" unchecked>
+      <br>
+                    <label for="Meningeal">Meningeal enhancement</label>
+               </div> <!--item ends-->
+        </div> <!--row ends-->
+                  <div class="form-group  row">  <!--row starts-->
+
+        <div class="col-sm-3">  <!--one item-->
+          <input type="checkbox" class="form-check-input" id="basilar_meningeal" name="supra" value = "basilar_meningeal" unchecked>
+          <br>
+          <label for="basilar_meningeal">Basilar meningeal enhancement</label>
+        </div>
+
+        <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="Ependymal" name="supra" value = "Ependymal" unchecked>
+          <br>
+          <label for="Ependymal">Ependymal enhancement</label>
+         </div> <!--item ends-->
+                   <div class="col-sm-3">  <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="Subependymal" name="supra" value = "Subependymal" unchecked>
+      <br>
+      <label for="Subependymal">Subependymal nodules</label>
+                </div>
+
+                <div class="col-sm-3">
+      <input type="checkbox" class="form-check-input" id="Moyamoya" name="supra" value = "Moyamoya" unchecked>
+      <br>
+                    <label for="Moyamoya">Moyamoya (multiple small dots in the basal ganglia representing collaterals)</label>
+               </div> <!--item ends-->
+        </div> <!--row ends-->
+
+        <div class="form-group  row">  <!--row starts-->
+
+          <div class="col-sm-3">  <!--one item-->
+            <input type="checkbox" class="form-check-input" id="vrs" name="supra" value = "vrs" unchecked>
+            <br>
+            <label for="vrs">Dilated Virchow Robin spaces or nodules in the dilated VR-spaces in the basal ganglia</label>
+          </div>
+
+          <div class="col-sm-3">
+            <input type="checkbox" class="form-check-input" id="atrophy" name="supra" value = "atrophy" unchecked>
+            <br>
+            <label for="atrophy">Cerberal/cerebellar atrophy</label>
+           </div> <!--item ends-->
+                     <div class="col-sm-3">  <!--one item-->
+                      <input type="checkbox" class="form-check-input" id="vermial" name="supra" value = "vermial" unchecked>
+        <br>
+        <label for="vermial">Significant vermial atrophy</label>
+                  </div>
+
+                  <div class="col-sm-3">
+        <input type="checkbox" class="form-check-input" id="csf_cyst" name="supra" value = "csf_cyst" unchecked>
+        <br>
+                      <label for="csf_cyst">Subcortical and CSF cysts of temporal region</label>
+                 </div> <!--item ends-->
+          </div> <!--row ends-->
+                    <div class="form-group  row">  <!--row starts-->
+
+          <div class="col-sm-3">  <!--one item-->
+            <input type="checkbox" class="form-check-input" id="hydro" name="supra" value = "hydro" unchecked>
+            <br>
+            <label for="hydro">Hydrocephalus/megaloncephaly</label>
+          </div>
+
+          <div class="col-sm-3">
+            <input type="checkbox" class="form-check-input" id="Sylvian" name="supra" value = "Sylvian" unchecked>
+            <br>
+            <label for="Sylvian">Prominnet cyst-like Sylvian fissure without ventriculomegaly or global atrophy</label>
+           </div> <!--item ends-->
+                     <div class="col-sm-3">  <!--one item-->
+                      <input type="checkbox" class="form-check-input" id="germinolytic" name="supra" value = "germinolytic" unchecked>
+        <br>
+        <label for="germinolytic">Subependymal germinolytic cysts</label>
+                  </div>
+
+                  <div class="col-sm-3">
+        <input type="checkbox" class="form-check-input" id="migration" name="supra" value = "migration" unchecked>
+        <br>
+                      <label for="migration">Associated migration disorder, immature gyral pattern</label>
+                 </div> <!--item ends-->
+          </div> <!--row ends-->
+                  <fieldset> <!--fieldset ends-->
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading4">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#flush-collapse4"
+                aria-expanded="false"
+                aria-controls="flush-collapse4"
+              >
+                Basal ganglia
+              </button>
+            </h2>
+            <div
+              id="flush-collapse4"
+              class="accordion-collapse collapse"
+              aria-labelledby="flush-heading4"
+              data-mdb-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <fieldset> <!--fieldset starts-->
+
+                    <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="symmetrical_bg" name="supra" value = "symmetrical_bg" unchecked>
+              <br>
+              <label for="symmetrical_bg">Symmetrical basal ganglia lesions</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="Discrete_bg" name="supra" value = "Discrete_bg" unchecked>
+              <br>
+							<label for="Discrete_bg">Discrete or patchy lesions of the basal ganglia</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">  <!--one item-->
+                        <input type="checkbox" class="form-check-input" id="Putamen" name="supra" value = "Putamen" unchecked>
+          <br>
+          <label for="Putamen">Putamen involvement with any abnormal signal in any sequence</label>
+                    </div>
+
+                    <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="putamen_t1" name="supra" value = "putamen_t1" unchecked>
+          <br>
+                        <label for="putamen_t1">High T1 putamen</label>
+                   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="Globus" name="supra" value = "Globus" unchecked>
+              <br>
+              <label for="Globus">Globus pallidus involvement with any abnormal signal in any sequence</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="globus_t1" name="supra" value = "globus_t1" unchecked>
+              <br>
+							<label for="globus_t1">High T1 globus pallidus</label>
+					   </div> <!--item ends-->
+                       <div class="col-sm-3">  <!--one item-->
+                        <input type="checkbox" class="form-check-input" id="Thalamus" name="supra" value = "Thalamus" unchecked>
+          <br>
+          <label for="Thalamus">Thalamus involvement with any abnormal signal in any sequence</label>
+                    </div>
+
+                    <div class="col-sm-3">
+          <input type="checkbox" class="form-check-input" id="thalamus_t1" name="supra" value = "thalamus_t1" unchecked>
+          <br>
+                        <label for="thalamus_t1">High T1 thalamus</label>
+                   </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <div class="form-group  row">  <!--row starts-->
+
+						<div class="col-sm-3">  <!--one item-->
+							<input type="checkbox" class="form-check-input" id="Caudate" name="supra" value = "Caudate" unchecked>
+              <br>
+              <label for="Caudate">Caudate nucleus involvement with any abnormal signal in any sequence</label>
+						</div>
+
+						<div class="col-sm-3">
+              <input type="checkbox" class="form-check-input" id="caudate_atrophy" name="supra" value = "caudate_atrophy" unchecked>
+              <br>
+							<label for="caudate_atrophy">Caudate nucleus atrophy(prominent frontal horns)</label>
+					   </div> <!--item ends-->
+              <div class="col-sm-3">
+                        <input type="checkbox" class="form-check-input" id="Tiger" name="supra" value = "Tiger" unchecked>
+                        <br>
+                                      <label for="Tiger">Eyes of Tiger (hyperintense GP with hyperintense rim)</label>
+                                 </div> <!--item ends-->
+                <div class="col-sm-3">
+                                  <input type="checkbox" class="form-check-input" id="diffusion_bg" name="supra" value = "diffusion_bg" unchecked>
+                                  <br>
+                                                <label for="diffusion_bg">Diffusion restriction in BG / brain stem/ pons(ischemic type signal)</label>
+                                           </div> <!--item ends-->
+					  </div> <!--row ends-->
+                      <fieldset> <!--fieldset ends-->
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-heading5">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#flush-collapse5"
+                aria-expanded="false"
+                aria-controls="flush-collapse5"
+              >
+                Brain stem
+              </button>
+            </h2>
+            <div
+              id="flush-collapse5"
+              class="accordion-collapse collapse"
+              aria-labelledby="flush-heading5"
+              data-mdb-parent="#accordionFlushExample"
+            >
+              <div class="accordion-body">
+                <fieldset> <!--fieldset starts-->
+
+                  <div class="form-group  row">  <!--row starts-->
+
+          <div class="col-sm-3">  <!--one item-->
+            <input type="checkbox" class="form-check-input" id="Periaquiductal" name="supra" value = "Periaquiductal" unchecked>
+            <br>
+            <label for="Periaquiductal">Periaquiductal GM +/- Mamillary bodies & hypothalamus</label>
+          </div>
+
+          <div class="col-sm-3">
+            <input type="checkbox" class="form-check-input" id="pandas" name="supra" value = "pandas" unchecked>
+            <br>
+            <label for="pandas">White matter of the midbrain (sparing the red nucleus and the substantia nigra giving "face of giant panda sign"</label>
+           </div> <!--item ends-->
+                     <div class="col-sm-3">  <!--one item-->
+                      <input type="checkbox" class="form-check-input" id="Cerebral_peduncles" name="supra" value = "Cerebral_peduncles" unchecked>
+        <br>
+        <label for="Cerebral_peduncles">Cerebral peduncles hyperintensity in FLAIR and/or T2 signal</label>
+                  </div>
+
+                  <div class="col-sm-3">
+        <input type="checkbox" class="form-check-input" id="small_cerebellar_penduncle" name="supra" value = "small_cerebellar_penduncle" unchecked>
+        <br>
+                      <label for="small_cerebellar_penduncle">Small cerebral peduncle</label>
+                 </div> <!--item ends-->
+          </div> <!--row ends-->
+                    <div class="form-group  row">  <!--row starts-->
+
+          <div class="col-sm-3">  <!--one item-->
+            <input type="checkbox" class="form-check-input" id="substantia_nigra" name="supra" value = "substantia_nigra" unchecked>
+            <br>
+            <label for="substantia_nigra">Substantia nigra abnormal signal</label>
+          </div>
+
+          <div class="col-sm-3">
+            <input type="checkbox" class="form-check-input" id="red_nuc" name="supra" value = "red_nuc" unchecked>
+            <br>
+            <label for="red_nuc">Red nucleus abnormality</label>
+           </div> <!--item ends-->
+                     <div class="col-sm-3">  <!--one item-->
+                      <input type="checkbox" class="form-check-input" id="pons" name="supra" value = "pons" unchecked>
+        <br>
+        <label for="pons">White matter of pons including aeas around the pyramidal tracts and tegmental tracts</label>
+                  </div>
+
+                  <div class="col-sm-3">
+        <input type="checkbox" class="form-check-input" id="central_pons" name="supra" value = "central_pons" unchecked>
+        <br>
+                      <label for="central_pons">Central signal in the pons sparing the periphery corticospinal tracts</label>
+                 </div> <!--item ends-->
+          </div> <!--row ends-->
+                    <div class="form-group  row">  <!--row starts-->
+
+          <div class="col-sm-3">  <!--one item-->
+            <input type="checkbox" class="form-check-input" id="Tegmentum" name="supra" value = "Tegmentum" unchecked>
+            <br>
+            <label for="Tegmentum">Tegmentum (dorsal pons) including the central Tegmental Tract</label>
+          </div>
+
+          <div class="col-sm-3">
+            <input type="checkbox" class="form-check-input" id="Dentate" name="supra" value = "Dentate" unchecked>
+            <br>
+            <label for="Dentate">Dentate nucleus</label>
+           </div> <!--item ends-->
+            <div class="col-sm-3">
+                      <input type="checkbox" class="form-check-input" id="ion" name="supra" value = "ion" unchecked>
+                      <br>
+                                    <label for="ion">Medulla oblongata involving the inferior olivary nucleus (ION)</label>
+                               </div> <!--item ends-->
+              <div class="col-sm-3">
+                                <input type="checkbox" class="form-check-input" id="medulla_oblongata" name="supra" value = "medulla_oblongata" unchecked>
+                                <br>
+                                              <label for="medulla_oblongata">White matter of the medulla oblongata (periphery)</label>
+                                         </div> <!--item ends-->
+          </div> <!--row ends-->
+          <div class="form-group  row">  <!--row starts-->
+                <div class="col-sm-3">
+                                  <input type="checkbox" class="form-check-input" id="diffusion_bstem" name="supra" value = "diffusion_bstem" unchecked>
+                                  <br>
+                                                <label for="diffusion_bstem">Diffusion restriction in brainstem</label>
+                                           </div> <!--item ends-->
+            </div> <!--row ends-->
+                    <fieldset> <!--fieldset ends-->
+              </div>
+            </div>
+          </div>
+
+
+      </div> <!-- according -->
+      <br>
+					  
+
+      <button type="submit" class="btn btn-primary" style="margin: 10px;">Predict</button>
+    
+    </form>  
+  </div> <!-- div for container -->
+ <!--############################################################################################################### -->
+
+<!-- graph starts -->
+ <div class="container" style="margin-top: 30px;">  <!-- gving gap -->
+  <div id="chart_div" style=" width: 100%; margin: auto;"></div>
+</div>
+<!-- graph ends -->
+
+
+  <!--############################################################################################################### -->
+
+<!-- Footer -->
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(230, 230, 230, 0.2);">
+    © 2021 Copyright:
+    <a class="text-dark" href="https://gvsanthu10.github.io/">Developed by Dr Santhosh and Dr Adel</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+    <!-- End your project here-->
+
+
+    <!--
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+ -->
+
+     <script type="text/javascript" src="{{url_for('static', filename='js/mdb.min.js')}}"></script>    
+        
+    <!-- Custom scripts -->
+    <script type="text/javascript"></script>
+  </body>
+</html>
