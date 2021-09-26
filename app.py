@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 import numpy as np
+import gc
 
 app = Flask(__name__)
 
@@ -34,6 +35,7 @@ def ovary_predict():
     postive_features = np.array(postive_features).reshape(15,1)
 
     result1 =  my_function(pos_weights=positive, neg_weights=negative, some_pos_row=postive_features, labels=final_labels)
+    del positive; gc.collect(); del negative; gc.collect()
     first = {'Type': 'Score'} 
 
 
@@ -72,6 +74,7 @@ def whitematter_predict():
     user_input = request.form.getlist("wm")
     
     result1 =  whitemattet_calculator(user_input, positive, negative, all_features, labels, prevalence)
+    del positive; gc.collect(); del negative; gc.collect()
     first = {'Type': 'Score'} 
     
     if len(user_input) != 0:
@@ -93,6 +96,7 @@ def supratentorial_predict():
     user_input = request.form.getlist("supra")
     
     result1 =  supra_calculator(user_input, positive, negative, all_features, labels, prevalence)
+    del positive; gc.collect(); del negative; gc.collect()
     first = {'Type': 'Score'} 
     
     if len(user_input) != 0:
@@ -114,6 +118,7 @@ def pead_wm_predict():
     user_input = request.form.getlist("supra")
     
     result1 =  peads_calculator(user_input, positive, negative, all_features, labels, prevalence)
+    del positive; gc.collect(); del negative; gc.collect()
     first = {'Type': 'Score'} 
         
     if len(user_input) != 0:
@@ -136,6 +141,7 @@ def sella_predict():
     user_input = request.form.getlist("supra")
         
     result1 =  sella_calculator(user_input, positive, negative, all_features, labels, prevalence)
+    del positive; gc.collect(); del negative; gc.collect()
     first = {'Type': 'Score'} 
         
     return render_template('sella.html', data = {**first, **result1})
@@ -153,6 +159,7 @@ def spine_predict():
 
 
     result1 =  spine_calculator(user_input, positive, negative, all_features, labels)
+    del positive; gc.collect(); del negative; gc.collect()
     first = {'Type': 'Score'} 
 
 
@@ -164,7 +171,7 @@ def spine_predict():
         return render_template('spine.html', 
                                data = {**first, **result1})
 
-###########################################
+###########################################e
 
 #main infra page
 @app.route('/infra')
@@ -184,13 +191,13 @@ def infra_predict():
 	#empty dict for test
 	result1 = infra_intra_axial_calculator(user_input, positive, negative, all_features, labels, prevalence)
 	#print(result1)
-	
+	del positive; gc.collect(); del negative; gc.collect()
+
 	#Creating labels for google charts
 	first = {'Type': 'Score'} 
 	return render_template('infraintra.html', data =  {**first, **result1})
     
-###########################################
-
+###########################################e
 		
 if __name__ == "__main__":
     app.run()
