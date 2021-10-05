@@ -225,6 +225,31 @@ def liver_predict():
     return render_template('liver.html', data =  {**first, **result1})
 
 ###########################################end
+#main  page
+@app.route('/pancreas')  #change here
+def pancreas(): #change here
+	return render_template('pancreas.html', data={}) #change here
+
+# predictpage
+@app.route('/pancreas/predict', methods=['GET', 'POST'])  #change here
+def pancreas_predict(): #change here
+    
+	#geting userinput
+    user_input = request.form.getlist("infra_intra") 
+
+
+	#importing data from util
+    from pancreas_util import positive, negative, all_features, labels, pancreas_calculator
+
+	#empty dict for test
+    result1 = pancreas_calculator(user_input, positive, negative, all_features, labels)
+    #print(user_input)
+
+	#Creating labels for google charts
+    first = {'Type': 'Score'} 
+    return render_template('pancreas.html', data =  {**first, **result1}) #change here
+
+###########################################end
 		
 if __name__ == "__main__":
     app.run()
