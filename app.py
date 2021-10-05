@@ -197,7 +197,34 @@ def infra_predict():
 	first = {'Type': 'Score'} 
 	return render_template('infraintra.html', data =  {**first, **result1})
     
-###########################################e
+###########################################
+
+#main page
+@app.route('/liver')
+def liver():
+	return render_template('liver.html', data={})
+
+# predictpage
+@app.route('/liver/predict', methods=['GET', 'POST'])
+def liver_predict():
+    print(request.form.getlist("infra_intra"))
+
+	#getting userinput
+    user_input = request.form.getlist("infra_intra")
+
+
+	#importing data from util
+    from liver_util import positive, negative, all_features, labels, prevalence, liver_calculator
+
+	#empty dict for test
+    result1 = liver_calculator(user_input, positive, negative, all_features, labels, prevalence)
+	#print(result1)
+
+	#Creating labels for google charts
+    first = {'Type': 'Score'} 
+    return render_template('liver.html', data =  {**first, **result1})
+
+###########################################end
 		
 if __name__ == "__main__":
     app.run()
