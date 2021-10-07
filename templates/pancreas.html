@@ -1,0 +1,372 @@
+<!-- to format the code shift, alt and F -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Bayesian predictions</title>
+  <!-- MDB icon -->
+  <link rel="icon" href="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png"
+    type="image/x-icon" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
+  <!-- Google Fonts Roboto -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.min.css') }}" />  
+    <!-- <link rel="stylesheet" href="css/mdb.min.css">  -->
+
+
+  <!-- start of google chart -->
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+
+    google.charts.load("current", { packages: ['corechart', 'bar'] });
+    google.charts.setOnLoadCallback(drawRightY);
+    function drawRightY() {
+      var data = google.visualization.arrayToDataTable([
+        {% for key, value in data.items() %}
+    {% if value is string %}
+    ['{{ key }}', '{{ value }}'],
+      {% else %}
+    ['{{ key }}', {{ value }}],
+      {% endif %}
+    {% endfor %}
+      ]);
+
+    var materialOptions = {
+      chart: {
+        title: 'Probability with scores',
+        chartArea: { left: "10%", top: 0, width: "100%", height: "100%" },
+        height: 500,
+        width: 500
+      },
+
+      bars: 'horizontal',
+      axes: {
+        y: {
+          0: { side: 'left' }
+        }
+      }
+    };
+
+
+    var materialChart = new google.charts.Bar(document.getElementById('chart_div'));
+
+    google.visualization.events.addListener(materialChart, 'error', function (googleError) {
+      google.visualization.errors.removeError(googleError.id);
+      document.getElementById("error_msg").innerHTML = "No chart to display!";
+    });
+
+
+    materialChart.draw(data, materialOptions);
+  }
+  </script>
+  <!-- end of google chart -->
+
+
+</head>
+
+<body>
+  <!-- Start your project here-->
+
+  <!-- nav bar-->
+  <!-- Just an image -->
+  <nav class="navbar navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="{{url_for('welcome')}}">
+        <!--???????????change here   -->
+        <img src="https://raw.githubusercontent.com/gvsanthu10/website/main/images/logo.png" height="20" alt=""
+          loading="lazy" />
+        <small>Bayesian predictions</small>
+      </a>
+    </div>
+  </nav>
+  <!--############################################################################################################### -->
+
+  <div class="container" style="padding: 20px;">
+    <!--Empty div to fill the gap -->
+  </div>
+  <!--############################################################################################################### -->
+  <div class="container">
+    <!--bread crumb -->
+
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{url_for('welcome')}}">Home</a></li>
+        <!--???????????change here   -->
+        <li class="breadcrumb-item">Gastrointestinal</li>
+        <li class="breadcrumb-item">Pancreatic masses</li>
+        <li class="breadcrumb-item active" aria-current="page">Solid</li>
+      </ol>
+    </nav>
+
+  </div>
+  <!--bread crumb ends -->
+  <!--############################################################################################################### -->
+
+
+  <div class="container" style="padding: 20px;">
+    <!--centering div-->
+
+    <form action="{{url_for('pancreas_predict')}}" method="POST">
+      <!--????????change here -->
+
+      <h3>Select the parameters</h3>
+      <div class="accordion accordion-flush" id="accordionFlushExample">
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
+              data-mdb-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              Size
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+            data-mdb-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <fieldset>
+                <!--fieldset starts-->
+
+                <div class="form-group  row">
+                  <!--row starts-->
+
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="small" name="infra_intra" value="small"
+                      unchecked>
+                    <br>
+                    <label for="small">Small lesion</label>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <input type="checkbox" class="form-check-input" id="Large" name="infra_intra" value="Large"
+                      unchecked>
+                    <br>
+                    <label for="Large">Large lesion</label>
+                  </div>
+                  <!--item ends-->
+                </div>
+                <!--row ends-->
+                <fieldset>
+                  <!--fieldset ends-->
+            </div>
+            <!--according body ends -->
+          </div>
+          <!--flush collape ends -->
+        </div>
+        <!--according item ends -->
+
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingTwo">
+            <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
+              data-mdb-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+              Morphology
+            </button>
+          </h2>
+          <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo"
+            data-mdb-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <fieldset>
+                <!--fieldset starts-->
+
+                <div class="form-group  row">
+                  <!--row starts-->
+
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="Solid" name="infra_intra" value="Solid"
+                      unchecked>
+                    <br>
+                    <label for="Solid">Solid with no cystic areas</label>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <input type="checkbox" class="form-check-input" id="solid_with_necrosis" name="infra_intra"
+                      value="solid_with_necrosis" unchecked>
+                    <br>
+                    <label for="solid_with_necrosis">Solid lesion with necrosis</label>
+                  </div>
+                  <!--item ends-->
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="Single" name="infra_intra" value="Single"
+                      unchecked>
+                    <br>
+                    <label for="Single">Single</label>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <input type="checkbox" class="form-check-input" id="Multiple" name="infra_intra" value="Multiple"
+                      unchecked>
+                    <br>
+                    <label for="Multiple">Multiple</label>
+                  </div>
+                  <!--item ends-->
+                </div>
+                <!--row ends-->
+                <div class="form-group  row">
+                  <!--row starts-->
+
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="Diffuse" name="infra_intra"
+                      value="Diffuse" unchecked>
+                    <br>
+                    <label for="Diffuse">Diffuse</label>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <input type="checkbox" class="form-check-input" id="Calcification" name="infra_intra"
+                      value="Calcification" unchecked>
+                    <br>
+                    <label for="Calcification">Calcification</label>
+                  </div>
+                  <!--item ends-->
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="fat" name="infra_intra"
+                      value="fat" unchecked>
+                    <br>
+                    <label for="fat">Fat signal</label>
+                  </div>
+                  <!--item ends-->
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="haemorrhage" name="infra_intra"
+                      value="haemorrhage" unchecked>
+                    <br>
+                    <label for="haemorrhage">Presence of haemorrhage</label>
+                  </div>
+                  <!--item ends-->
+                </div>
+                <!--row ends-->
+                <div class="form-group  row">
+                  <!--row starts-->
+
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="duct_obst" name="infra_intra"
+                      value="duct_obst" unchecked>
+                    <br>
+                    <label for="duct_obst">Ductal obstruction with dilated main pancreatic duct </label>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <input type="checkbox" class="form-check-input" id="Hypovascular" name="infra_intra"
+                      value="Hypovascular" unchecked>
+                    <br>
+                    <label for="Hypovascular">Hypovascular (mildly enhanced rim) compared with the normal pancreas</label>
+                  </div>
+                  <!--item ends-->
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="Hypervascular" name="infra_intra"
+                      value="Hypervascular" unchecked>
+                    <br>
+                    <label for="Hypervascular">Hypervascular compared with the normal pancreas</label>
+                  </div>
+                  <!--item ends-->
+        
+                </div>
+                <!--row ends-->
+                <fieldset>
+                  <!--fieldset ends-->
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingThree">
+            <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
+              data-mdb-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+              Location
+            </button>
+          </h2>
+          <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree"
+            data-mdb-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <fieldset>
+                <!--fieldset starts-->
+
+                <div class="form-group  row">
+                  <!--row starts-->
+
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="Head" name="infra_intra"
+                      value="Head" unchecked>
+                    <br>
+                    <label for="Head">Head</label>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <input type="checkbox" class="form-check-input" id="body" name="infra_intra"
+                      value="body" unchecked>
+                    <br>
+                    <label for="body">body or tail</label>
+                  </div>
+                  <!--item ends-->
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="duodenum" name="infra_intra"
+                      value="duodenum" unchecked>
+                    <br>
+                    <label for="duodenum">Space between the duodenum and the head of the pancreas</label>
+                  </div>
+                </div>
+                <!--row ends-->
+    
+                <fieldset>
+                  <!--fieldset ends-->
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- according -->
+      <br>
+
+
+      <button type="submit" class="btn btn-primary" style="margin: 10px;">Predict</button>
+
+    </form>
+  </div> <!-- div for container -->
+  <!--############################################################################################################### -->
+
+  <!-- graph starts -->
+  <div class="container" style="margin-top: 30px;">
+    <!-- gving gap -->
+    <div id="chart_div" style=" width: 100%; margin: auto;"></div>
+  </div>
+  <!-- graph ends -->
+
+  <!--############################################################################################################### -->
+  <div class="container" style="padding: 20px;">
+    <!--Empty div to fill the gap -->
+  </div>
+  <!--############################################################################################################### -->
+
+
+  <!-- Footer -->
+  <footer class="bg-light text-center text-lg-start">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(230, 230, 230, 0.2);">
+      © 2021 Copyright:
+      <a class="text-dark" href="https://gvsanthu10.github.io/">Developed by Dr Santhosh and Dr Adel</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- End your project here-->
+
+
+     <script type="text/javascript" src="{{url_for('static', filename='js/mdb.min.js')}}"></script> 
+  <!-- <script src="js/mdb.min.js"></script>  --> 
+
+</body>
+
+</html>
