@@ -16,8 +16,8 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" />
   <!-- Google Fonts Roboto -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
-   <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.min.css') }}" />  
-    <!-- <link rel="stylesheet" href="css/mdb.min.css">  -->
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.min.css') }}" />  
+  <!--  <link rel="stylesheet" href="css/mdb.min.css">  -->
 
 
   <!-- start of google chart -->
@@ -120,13 +120,13 @@
       <div class="accordion accordion-flush" id="accordionFlushExample">
 
         <div class="accordion-item">
-          <h2 class="accordion-header" id="flush-headingOne">
+          <h2 class="accordion-header" id="flush-headingzero">
             <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
-              data-mdb-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              data-mdb-target="#flush-collapsezero" aria-expanded="false" aria-controls="flush-collapsezero">
               Size
             </button>
           </h2>
-          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+          <div id="flush-collapsezero" class="accordion-collapse collapse" aria-labelledby="flush-headingzero"
             data-mdb-parent="#accordionFlushExample">
             <div class="accordion-body">
               <fieldset>
@@ -149,6 +149,56 @@
                     <br>
                     <label for="Large">Large lesion</label>
                   </div>
+                  <!--item ends-->
+                </div>
+                <!--row ends-->
+                <fieldset>
+                  <!--fieldset ends-->
+            </div>
+            <!--according body ends -->
+          </div>
+          <!--flush collape ends -->
+        </div>
+        <!--according item ends -->
+        
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
+              data-mdb-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+              Number
+            </button>
+          </h2>
+          <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne"
+            data-mdb-parent="#accordionFlushExample">
+            <div class="accordion-body">
+              <fieldset>
+                <!--fieldset starts-->
+
+                <div class="form-group  row">
+                  <!--row starts-->
+
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="Single" name="infra_intra" value="Single"
+                      unchecked>
+                    <br>
+                    <label for="Single">Single</label>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <input type="checkbox" class="form-check-input" id="Multiple" name="infra_intra" value="Multiple"
+                      unchecked>
+                    <br>
+                    <label for="Multiple">Multiple</label>
+                  </div>
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="Diffuse" name="infra_intra"
+                      value="Diffuse" unchecked>
+                    <br>
+                    <label for="Diffuse">Diffuse</label>
+                  </div>
+                  <!--item ends-->
                   <!--item ends-->
                 </div>
                 <!--row ends-->
@@ -193,33 +243,11 @@
                     <label for="solid_with_necrosis">Solid lesion with necrosis</label>
                   </div>
                   <!--item ends-->
-                  <div class="col-sm-3">
-                    <!--one item-->
-                    <input type="checkbox" class="form-check-input" id="Single" name="infra_intra" value="Single"
-                      unchecked>
-                    <br>
-                    <label for="Single">Single</label>
-                  </div>
-
-                  <div class="col-sm-3">
-                    <input type="checkbox" class="form-check-input" id="Multiple" name="infra_intra" value="Multiple"
-                      unchecked>
-                    <br>
-                    <label for="Multiple">Multiple</label>
-                  </div>
-                  <!--item ends-->
+                  
                 </div>
                 <!--row ends-->
                 <div class="form-group  row">
                   <!--row starts-->
-
-                  <div class="col-sm-3">
-                    <!--one item-->
-                    <input type="checkbox" class="form-check-input" id="Diffuse" name="infra_intra"
-                      value="Diffuse" unchecked>
-                    <br>
-                    <label for="Diffuse">Diffuse</label>
-                  </div>
 
                   <div class="col-sm-3">
                     <input type="checkbox" class="form-check-input" id="Calcification" name="infra_intra"
@@ -230,18 +258,10 @@
                   <!--item ends-->
                   <div class="col-sm-3">
                     <!--one item-->
-                    <input type="checkbox" class="form-check-input" id="fat" name="infra_intra"
-                      value="fat" unchecked>
-                    <br>
-                    <label for="fat">Fat signal</label>
-                  </div>
-                  <!--item ends-->
-                  <div class="col-sm-3">
-                    <!--one item-->
                     <input type="checkbox" class="form-check-input" id="haemorrhage" name="infra_intra"
                       value="haemorrhage" unchecked>
                     <br>
-                    <label for="haemorrhage">Presence of haemorrhage</label>
+                    <label for="haemorrhage">Haemorrhage</label>
                   </div>
                   <!--item ends-->
                 </div>
@@ -249,13 +269,6 @@
                 <div class="form-group  row">
                   <!--row starts-->
 
-                  <div class="col-sm-3">
-                    <!--one item-->
-                    <input type="checkbox" class="form-check-input" id="duct_obst" name="infra_intra"
-                      value="duct_obst" unchecked>
-                    <br>
-                    <label for="duct_obst">Ductal obstruction with dilated main pancreatic duct </label>
-                  </div>
 
                   <div class="col-sm-3">
                     <input type="checkbox" class="form-check-input" id="Hypovascular" name="infra_intra"
@@ -275,6 +288,21 @@
         
                 </div>
                 <!--row ends-->
+
+                <div class="form-group  row">
+                  <!--row starts-->
+
+                  <div class="col-sm-3">
+                    <!--one item-->
+                    <input type="checkbox" class="form-check-input" id="duct_obst" name="infra_intra"
+                      value="duct_obst" unchecked>
+                    <br>
+                    <label for="duct_obst">Ductal obstruction with dilated main pancreatic duct </label>
+                  </div>
+        
+                </div>
+                <!--row ends-->
+
                 <fieldset>
                   <!--fieldset ends-->
             </div>
@@ -365,7 +393,7 @@
 
 
      <script type="text/javascript" src="{{url_for('static', filename='js/mdb.min.js')}}"></script> 
-  <!-- <script src="js/mdb.min.js"></script>  --> 
+<!--   <script src="js/mdb.min.js"></script>  --> 
 
 </body>
 
