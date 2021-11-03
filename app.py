@@ -224,6 +224,32 @@ def pancreas_predict(): #change here
     return render_template('pancreas.html', data =  {**first, **result1}) #change here
 
 ###########################################end
+
+#main  page
+@app.route('/pancreascystic')  #change here
+def pancreas_cystic(): #change here
+	return render_template('pancreascystic.html', data={}) #change here
+
+# predictpage
+@app.route('/pancreascystic/predict', methods=['GET', 'POST'])  #change here
+def pancreas_cystic_predict(): #change here
+    
+	#geting userinput
+    user_input = request.form.getlist("Tumor")
+    #print(user_input) 
+
+	#importing data from util
+    from pancreas_cystic import positive, negative, all_features, labels, prevalence, pancreas_cystic_calculator
+
+	#empty dict for test
+    result1 = pancreas_cystic_calculator(user_input, positive, negative, all_features, labels, prevalence)
+    #print(user_input)
+
+	#Creating labels for google charts
+    first = {'Type': 'Score'} 
+    return render_template('pancreascystic.html', data =  {**first, **result1}) #change here
+
+###########################################end
 		
 if __name__ == "__main__":
     app.run()
