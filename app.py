@@ -250,6 +250,32 @@ def pancreas_cystic_predict(): #change here
     return render_template('pancreascystic.html', data =  {**first, **result1}) #change here
 
 ###########################################end
+
+#main  page for infra_intra
+@app.route('/infraintraventricular')  #change here
+def infraintraventricular(): #change here
+	return render_template('infra_intraventricular.html', data={}) #change here
+
+# predictpage
+@app.route('/infraintraventricular/predict', methods=['GET', 'POST'])  #change here
+def infraintraventricular_predict(): #change here
+    
+	#geting userinput
+    user_input = request.form.getlist("infra_intra")
+    #print(user_input) 
+
+	#importing data from util
+    from infra_intraventricular_util import positive, negative, all_features, labels, prevalence, infra_intraventricular_calculator
+
+	#empty dict for test
+    result1 = infra_intraventricular_calculator(user_input, positive, negative, all_features, labels, prevalence)
+    
+
+	#Creating labels for google charts
+    first = {'Type': 'Score'} 
+    return render_template('infra_intraventricular.html', data =  {**first, **result1}) #change here
+
+###########################################end
 		
 if __name__ == "__main__":
     app.run()
